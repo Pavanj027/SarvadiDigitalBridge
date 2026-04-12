@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarvadi Digital Bridge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --maroon: #6b0f1a;
+  --maroon-deep: #4a0a12;
+  --maroon-light: #8c1422;
+  --maroon-pale: #fdf0f1;
+  --maroon-tint: #f7e2e4;
+  --text: #1c1c1c;
+  --muted: #6b6b6b;
+  --border: #e8e0e1;
+  --white: #ffffff;
+  --offwhite: #fafafa;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Outfit', sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 5rem;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.logo { display: flex; align-items: center; gap: 0.85rem; text-decoration: none; }
+.logo-mark {
+  width: 40px; height: 40px; background: var(--maroon);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 10px;
+  color: var(--white); letter-spacing: 0.05em;
+  clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+}
+.logo-text { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 600; color: var(--maroon); letter-spacing: 0.02em; line-height: 1.15; }
+.logo-sub { display: block; font-size: 0.6rem; font-weight: 400; color: var(--muted); letter-spacing: 0.18em; font-family: 'Outfit', sans-serif; text-transform: uppercase; }
+nav ul { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+nav a { text-decoration: none; font-size: 0.82rem; font-weight: 400; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; position: relative; }
+nav a::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 1.5px; background: var(--maroon); transform: scaleX(0); transition: transform 0.25s; }
+nav a:hover { color: var(--maroon); }
+nav a:hover::after { transform: scaleX(1); }
+.nav-cta { background: var(--maroon) !important; color: var(--white) !important; padding: 0.5rem 1.4rem; font-weight: 500 !important; border-radius: 2px; letter-spacing: 0.08em; }
+.nav-cta::after { display: none !important; }
+.nav-cta:hover { background: var(--maroon-light) !important; color: var(--white) !important; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; position: relative; overflow: hidden;
+  display: flex; align-items: center;
+}
+.hero-img {
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1800&q=80') center/cover no-repeat;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, rgba(74,10,18,0.92) 0%, rgba(74,10,18,0.75) 50%, rgba(74,10,18,0.3) 100%);
+}
+.hero-content {
+  position: relative; z-index: 1;
+  padding: 10rem 5rem 6rem; max-width: 700px;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(255,255,255,0.75); font-weight: 500; margin-bottom: 1.75rem;
+  animation: fadeUp 0.8s ease both;
+}
+.hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: rgba(255,255,255,0.5); display: inline-block; }
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(3.2rem,6vw,5.5rem);
+  font-weight: 700; color: var(--white); line-height: 1.06; letter-spacing: -0.01em;
+  margin-bottom: 1.5rem; animation: fadeUp 0.8s 0.1s ease both;
+}
+.hero h1 em { color: #f5c6cb; font-style: italic; }
+.hero-sub {
+  font-size: 1.05rem; color: rgba(255,255,255,0.7); line-height: 1.85;
+  max-width: 480px; margin-bottom: 2.5rem; font-weight: 300;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.8s 0.3s ease both; }
+.btn-primary { background: var(--white); color: var(--maroon); padding: 0.9rem 2rem; font-weight: 600; font-size: 0.88rem; border: none; border-radius: 2px; cursor: pointer; text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; transition: background 0.2s; font-family: 'Outfit', sans-serif; }
+.btn-primary:hover { background: #f5c6cb; }
+.btn-outline { background: transparent; color: var(--white); padding: 0.9rem 2rem; font-weight: 500; font-size: 0.88rem; border: 1.5px solid rgba(255,255,255,0.5); border-radius: 2px; cursor: pointer; text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; transition: all 0.2s; font-family: 'Outfit', sans-serif; }
+.btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.1); }
+.hero-stats {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 1;
+  display: flex; background: rgba(255,255,255,0.07); backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255,255,255,0.12);
+}
+.hstat { flex: 1; padding: 1.75rem 2.5rem; border-right: 1px solid rgba(255,255,255,0.1); }
+.hstat:last-child { border-right: none; }
+.hstat .n { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 700; color: var(--white); line-height: 1; }
+.hstat .l { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.5); margin-top: 0.35rem; }
+
+/* ── TICKER ── */
+.ticker { background: var(--maroon); overflow: hidden; padding: 0.85rem 0; }
+.ticker-track { display: flex; white-space: nowrap; animation: ticker 35s linear infinite; width: max-content; }
+.ticker-track span { font-size: 0.72rem; font-weight: 500; color: rgba(255,255,255,0.85); letter-spacing: 0.16em; text-transform: uppercase; padding: 0 2rem; }
+.ticker-track .dot { color: rgba(255,255,255,0.25); padding: 0; }
+
+/* ── SHARED ── */
+section { padding: 6rem 5rem; }
+.slabel { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--maroon); font-weight: 600; margin-bottom: 1rem; }
+.slabel::before { content: ''; width: 24px; height: 1.5px; background: var(--maroon); }
+.stitle { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,3.5vw,2.9rem); font-weight: 700; line-height: 1.15; color: var(--text); max-width: 540px; }
+.stitle em { color: var(--maroon); font-style: italic; }
+
+/* ── ABOUT ── */
+.about { background: var(--white); display: grid; grid-template-columns: 1fr 1fr; gap: 0; align-items: stretch; padding: 0; }
+.about-img-wrap {
+  position: relative; overflow: hidden; min-height: 580px;
+}
+.about-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.about-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(74,10,18,0.75) 0%, rgba(74,10,18,0.1) 60%);
+}
+.about-img-caption {
+  position: absolute; bottom: 2.5rem; left: 2.5rem; right: 2.5rem;
+}
+.about-img-caption .badge { display: inline-block; background: var(--white); color: var(--maroon); font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; padding: 0.4rem 1rem; margin-bottom: 1rem; }
+.about-img-caption p { font-size: 0.95rem; color: rgba(255,255,255,0.85); line-height: 1.8; font-weight: 300; }
+.about-float {
+  position: absolute; top: 2.5rem; right: -1px;
+  background: var(--maroon); color: var(--white);
+  width: 120px; height: 120px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.about-float .n { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; line-height: 1; }
+.about-float .l { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.6); text-align: center; margin-top: 0.25rem; }
+.about-text { padding: 5rem; display: flex; flex-direction: column; justify-content: center; }
+.about-text .stitle { margin-bottom: 1.5rem; }
+.about-text p { font-size: 0.97rem; color: var(--muted); line-height: 1.9; margin-bottom: 1.25rem; font-weight: 300; }
+.pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+.pillar { padding: 1.25rem; border: 1px solid var(--border); border-top: 3px solid var(--maroon); }
+.pillar h4 { font-size: 0.88rem; font-weight: 500; color: var(--maroon); margin-bottom: 0.35rem; }
+.pillar p { font-size: 0.8rem; color: var(--muted); line-height: 1.65; font-weight: 300; }
+
+/* ── SERVICES ── */
+.services { background: var(--offwhite); padding: 6rem 5rem; }
+.services-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3.5rem; gap: 2rem; }
+.services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5px; background: var(--border); }
+.scard { background: var(--white); padding: 2.5rem 2rem; transition: background 0.25s; border-bottom: 3px solid transparent; }
+.scard:hover { background: var(--maroon-pale); border-bottom-color: var(--maroon); }
+.scard-icon { width: 46px; height: 46px; margin-bottom: 1.5rem; background: var(--maroon-pale); border: 1.5px solid var(--maroon-tint); display: flex; align-items: center; justify-content: center; color: var(--maroon); font-size: 1.2rem; border-radius: 2px; }
+.scard h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 0.75rem; }
+.scard p { font-size: 0.85rem; color: var(--muted); line-height: 1.8; font-weight: 300; }
+.stag { display: inline-block; margin-top: 1.25rem; font-size: 0.67rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--maroon); font-weight: 600; }
+
+/* ── FULLWIDTH IMAGE BREAK ── */
+.img-break {
+  height: 420px; position: relative; overflow: hidden;
+}
+.img-break img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.img-break-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, rgba(74,10,18,0.88) 0%, rgba(74,10,18,0.5) 50%, transparent 100%);
+  display: flex; align-items: center; padding: 0 5rem;
+}
+.img-break-text h2 {
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4vw,3.2rem);
+  font-weight: 700; color: var(--white); line-height: 1.15; max-width: 520px;
+  margin-bottom: 1rem;
+}
+.img-break-text h2 em { font-style: italic; color: #f5c6cb; }
+.img-break-text p { font-size: 0.95rem; color: rgba(255,255,255,0.65); line-height: 1.8; max-width: 420px; font-weight: 300; }
+
+/* ── COMMITMENTS ── */
+.commitments { background: var(--maroon); padding: 6rem 5rem; }
+.commitments .slabel { color: rgba(255,255,255,0.55); }
+.commitments .slabel::before { background: rgba(255,255,255,0.35); }
+.commit-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 1px; background: rgba(255,255,255,0.08); margin-top: 3rem; }
+.ccard { background: var(--maroon-deep); padding: 2.5rem 1.5rem; text-align: center; transition: background 0.2s; }
+.ccard:hover { background: var(--maroon-light); }
+.cicon { width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; font-size: 1.2rem; }
+.ccard h4 { font-size: 0.82rem; font-weight: 400; color: rgba(255,255,255,0.82); line-height: 1.5; }
+
+/* ── INDUSTRIES ── */
+.industries { background: var(--white); padding: 6rem 5rem; }
+.ind-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); margin-top: 3rem; }
+.ind-chip { background: var(--white); padding: 2rem 1.5rem; text-align: center; transition: background 0.2s; }
+.ind-chip:hover { background: var(--maroon-pale); }
+.ind-chip:hover h4 { color: var(--maroon); }
+.ind-chip .icon { font-size: 1.5rem; margin-bottom: 0.75rem; display: block; }
+.ind-chip h4 { font-size: 0.75rem; font-weight: 500; color: var(--text); letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* ── TESTIMONIALS ── */
+.testimonials { background: var(--offwhite); padding: 6rem 5rem; }
+.test-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 3rem; align-items: start; }
+.test-img-wrap { position: relative; overflow: hidden; border-radius: 2px; }
+.test-img-wrap img { width: 100%; height: 340px; object-fit: cover; display: block; }
+.test-img-overlay { position: absolute; inset: 0; background: rgba(74,10,18,0.45); }
+.test-cards { display: flex; flex-direction: column; gap: 1.5rem; }
+.tcard { background: var(--white); padding: 2.25rem; border: 1px solid var(--border); border-left: 4px solid var(--maroon); position: relative; }
+.tcard::before { content: '\201C'; font-family: 'Cormorant Garamond', serif; font-size: 4rem; line-height: 1; color: var(--maroon-tint); position: absolute; top: 0.5rem; right: 1.5rem; pointer-events: none; }
+.tcard p { font-size: 0.93rem; color: var(--muted); line-height: 1.85; font-style: italic; font-weight: 300; margin-bottom: 1.25rem; }
+.tauthor { font-size: 0.72rem; color: var(--maroon); letter-spacing: 0.1em; font-weight: 600; text-transform: uppercase; }
+
+/* ── CONTACT ── */
+.contact { background: var(--white); display: grid; grid-template-columns: 1fr 1.3fr; gap: 0; padding: 0; align-items: stretch; }
+.contact-img {
+  position: relative; overflow: hidden; min-height: 500px;
+}
+.contact-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.contact-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(74,10,18,0.85) 0%, rgba(74,10,18,0.3) 70%);
+  display: flex; flex-direction: column; justify-content: flex-end; padding: 3rem;
+}
+.contact-img-overlay .slabel { color: rgba(255,255,255,0.6); }
+.contact-img-overlay .slabel::before { background: rgba(255,255,255,0.4); }
+.contact-img-overlay h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 700; color: var(--white); line-height: 1.15; margin-bottom: 1rem; }
+.contact-img-overlay p { font-size: 0.92rem; color: rgba(255,255,255,0.65); line-height: 1.8; font-weight: 300; margin-bottom: 2rem; }
+.cdetail { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 0.85rem; font-size: 0.88rem; color: rgba(255,255,255,0.7); }
+.cdetail .ic { color: #f5c6cb; width: 20px; }
+.cform-wrap { padding: 5rem 4rem; display: flex; flex-direction: column; justify-content: center; background: var(--offwhite); }
+.cform-wrap h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; color: var(--text); margin-bottom: 2rem; }
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.fgroup { margin-bottom: 1.25rem; }
+label { display: block; font-size: 0.72rem; font-weight: 500; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; }
+input, textarea, select { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); outline: none; font-family: 'Outfit', sans-serif; font-size: 0.9rem; color: var(--text); background: var(--white); border-radius: 2px; transition: border-color 0.2s; }
+input:focus, textarea:focus, select:focus { border-color: var(--maroon); }
+textarea { resize: vertical; min-height: 110px; }
+.fsubmit { width: 100%; padding: 1rem; background: var(--maroon); color: var(--white); border: none; font-family: 'Outfit', sans-serif; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
+.fsubmit:hover { background: var(--maroon-light); }
+
+/* ── FOOTER ── */
+footer { background: var(--maroon-deep); padding: 2.5rem 5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+.fcopy { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
+.fcopy span { color: rgba(255,255,255,0.75); font-weight: 500; }
+.flinks { display: flex; gap: 2rem; }
+.flinks a { font-size: 0.78rem; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; letter-spacing: 0.06em; text-transform: uppercase; }
+.flinks a:hover { color: rgba(255,255,255,0.9); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  nav { padding: 1rem 2rem; }
+  nav ul { display: none; }
+  section, .services, .commitments, .industries, .testimonials { padding: 4.5rem 2rem; }
+  .hero-content { padding: 8rem 2rem 7rem; }
+  .hero-stats { position: relative; flex-wrap: wrap; }
+  .hstat { flex: 1 1 45%; }
+  .about { grid-template-columns: 1fr; }
+  .about-text { padding: 3rem 2rem; }
+  .about-img-wrap { min-height: 380px; }
+  .services-grid { grid-template-columns: 1fr 1fr; }
+  .commit-grid { grid-template-columns: repeat(2,1fr); }
+  .ind-grid { grid-template-columns: repeat(2,1fr); }
+  .test-layout { grid-template-columns: 1fr; }
+  .contact { grid-template-columns: 1fr; }
+  .contact-img { min-height: 340px; }
+  .cform-wrap { padding: 3rem 2rem; }
+  .img-break-overlay { padding: 0 2rem; }
+  footer { padding: 2rem 1.5rem; flex-direction: column; text-align: center; }
+  .services-header { flex-direction: column; align-items: flex-start; }
+  .frow { grid-template-columns: 1fr; }
+  .about-float { display: none; }
+}
+@media (max-width: 600px) {
+  .services-grid { grid-template-columns: 1fr; }
+  .commit-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="logo">
+    <div class="logo-mark">SDB</div>
+    <div class="logo-text">Sarvadi <span class="logo-sub">Digital Bridge</span></div>
+  </a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#industries">Industries</a></li>
+    <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Full-Service Market Research</div>
+    <h1>Insight-Driven<br>Decisions for<br><em>Your Business</em></h1>
+    <p class="hero-sub">We help organisations understand consumers, brands, and markets — turning data into clarity for critical business decisions.</p>
+    <div class="hero-actions">
+      <a href="#services" class="btn-primary">Explore Services</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="n">60+</div><div class="l">Years Combined Experience</div></div>
+    <div class="hstat"><div class="n">12</div><div class="l">Industry Sectors</div></div>
+    <div class="hstat"><div class="n">500+</div><div class="l">Projects Delivered</div></div>
+    <div class="hstat"><div class="n">100%</div><div class="l">Client Confidentiality</div></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>Consumer Research</span><span class="dot">&#9670;</span>
+    <span>Market Intelligence</span><span class="dot">&#9670;</span>
+    <span>Field &amp; Tab Services</span><span class="dot">&#9670;</span>
+    <span>Social Research</span><span class="dot">&#9670;</span>
+    <span>B2B Research</span><span class="dot">&#9670;</span>
+    <span>Brand Studies</span><span class="dot">&#9670;</span>
+    <span>Data Insights</span><span class="dot">&#9670;</span>
+    <span>Consumer Research</span><span class="dot">&#9670;</span>
+    <span>Market Intelligence</span><span class="dot">&#9670;</span>
+    <span>Field &amp; Tab Services</span><span class="dot">&#9670;</span>
+    <span>Social Research</span><span class="dot">&#9670;</span>
+    <span>B2B Research</span><span class="dot">&#9670;</span>
+    <span>Brand Studies</span><span class="dot">&#9670;</span>
+    <span>Data Insights</span><span class="dot">&#9670;</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-img-wrap">
+    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=900&q=85" alt="Research professional at work" loading="lazy">
+    <div class="about-img-overlay"></div>
+    <div class="about-float">
+      <div class="n">60+</div>
+      <div class="l">Years of expertise</div>
+    </div>
+    <div class="about-img-caption">
+      <div class="badge">Who We Are</div>
+      <p>Sarvadi Digital Bridge is a full-service research company offering end-to-end Consumer Research, Field &amp; Tab services, Market Intelligence, Social Research, and B2B services.</p>
+    </div>
+  </div>
+  <div class="about-text">
+    <div class="slabel">Our Foundation</div>
+    <h2 class="stitle">Seasoned professionals, <em>exceptional</em> research</h2>
+    <p>We are a team of seasoned professionals with a combined experience of over 60 years, driven by an aim to deliver quality, ethical, and actionable market research services to clients across India and beyond.</p>
+    <p>Our work is grounded in a deep understanding of the Indian consumer — their culture, socioeconomic context, and evolving behaviour.</p>
+    <div class="pillars">
+      <div class="pillar"><h4>Scientific &amp; Ethical</h4><p>Fine-tuned methodology based on immense experience and cultural understanding.</p></div>
+      <div class="pillar"><h4>Traditional &amp; Innovative</h4><p>Adept in both classical and new-age primary research approaches.</p></div>
+      <div class="pillar"><h4>Pan-India Reach</h4><p>Deep field network across urban, semi-urban and rural geographies.</p></div>
+      <div class="pillar"><h4>Client-First</h4><p>Delivering seamless experience and actionable insights every time.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header">
+    <div>
+      <div class="slabel">What We Do</div>
+      <h2 class="stitle">End-to-end research<br>services built for <em>impact</em></h2>
+    </div>
+    <p style="max-width:300px;font-size:0.9rem;color:var(--muted);line-height:1.8;font-weight:300;">From concept to delivery — rigorous research designed for the Indian market and beyond.</p>
+  </div>
+  <div class="services-grid">
+    <div class="scard"><div class="scard-icon">&#9679;</div><h3>Consumer Research</h3><p>Understand purchase behaviour, perception, brand equity, usage habits, and attitudes among your target consumers with rigorous primary research.</p><div class="stag">Qualitative &amp; Quantitative</div></div>
+    <div class="scard"><div class="scard-icon">&#9632;</div><h3>Field &amp; Tab Services</h3><p>End-to-end data collection, field management, tabulation, and quality-controlled processing for research firms and corporate clients.</p><div class="stag">Nationwide Network</div></div>
+    <div class="scard"><div class="scard-icon">&#9650;</div><h3>Market Intelligence</h3><p>Competitive landscape analysis, sector intelligence, pricing benchmarks, and distribution tracking to sharpen strategic decisions.</p><div class="stag">Strategic Insights</div></div>
+    <div class="scard"><div class="scard-icon">&#9670;</div><h3>Social Research</h3><p>Policy impact assessments, stakeholder studies, and community insight projects for government bodies and development organisations.</p><div class="stag">Impact Measurement</div></div>
+    <div class="scard"><div class="scard-icon">&#11036;</div><h3>B2B Research</h3><p>In-depth interviews, decision-maker surveys, and industrial studies targeting professionals and organisations across sectors.</p><div class="stag">Executive Interviews</div></div>
+    <div class="scard"><div class="scard-icon">&#9899;</div><h3>Brand Studies</h3><p>Brand health tracking, awareness-usage-attitude studies, concept testing, and ad effectiveness measurement for growing brands.</p><div class="stag">Brand Tracking</div></div>
+  </div>
+</section>
+
+<!-- IMAGE BREAK -->
+<div class="img-break">
+  <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1800&q=85" alt="Team collaboration" loading="lazy">
+  <div class="img-break-overlay">
+    <div class="img-break-text">
+      <h2>We commit to the basics of <em>primary research</em></h2>
+      <p>Simple. Appropriate. Practical. Secure. Insightful. These are not aspirations — they are our non-negotiables on every project we deliver.</p>
+    </div>
+  </div>
+</div>
+
+<!-- COMMITMENTS -->
+<section class="commitments" id="commitments">
+  <div class="slabel">Our Promise</div>
+  <h2 class="stitle" style="color:var(--white);max-width:100%;margin-bottom:0;">Five pillars that define every engagement</h2>
+  <div class="commit-grid">
+    <div class="ccard"><div class="cicon">&#128065;</div><h4>Simple &amp; Easy to Understand</h4></div>
+    <div class="ccard"><div class="cicon">&#128203;</div><h4>Appropriate Research Design</h4></div>
+    <div class="ccard"><div class="cicon">&#9881;</div><h4>Practical in Execution</h4></div>
+    <div class="ccard"><div class="cicon">&#128274;</div><h4>Data Security &amp; Confidentiality</h4></div>
+    <div class="ccard"><div class="cicon">&#128200;</div><h4>Actionable Data Insights</h4></div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="industries" id="industries">
+  <div class="slabel">Sectors We Serve</div>
+  <h2 class="stitle">Expertise across every <em>major industry</em></h2>
+  <div class="ind-grid">
+    <div class="ind-chip"><span class="icon">&#128664;</span><h4>Automotive</h4></div>
+    <div class="ind-chip"><span class="icon">&#128187;</span><h4>Technology</h4></div>
+    <div class="ind-chip"><span class="icon">&#127831;</span><h4>FMCG</h4></div>
+    <div class="ind-chip"><span class="icon">&#127968;</span><h4>Financial Services</h4></div>
+    <div class="ind-chip"><span class="icon">&#127973;</span><h4>Healthcare</h4></div>
+    <div class="ind-chip"><span class="icon">&#128717;</span><h4>Retail</h4></div>
+    <div class="ind-chip"><span class="icon">&#128666;</span><h4>Logistics</h4></div>
+    <div class="ind-chip"><span class="icon">&#128250;</span><h4>Media</h4></div>
+    <div class="ind-chip"><span class="icon">&#127970;</span><h4>B2B &amp; PSU</h4></div>
+    <div class="ind-chip"><span class="icon">&#127807;</span><h4>Agriculture</h4></div>
+    <div class="ind-chip"><span class="icon">&#128084;</span><h4>Lifestyle</h4></div>
+    <div class="ind-chip"><span class="icon">&#128300;</span><h4>Pharma</h4></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="slabel">Client Voices</div>
+  <h2 class="stitle">What our <em>clients say</em></h2>
+  <div class="test-layout">
+    <div class="test-img-wrap">
+      <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=85" alt="Client meeting" loading="lazy">
+      <div class="test-img-overlay"></div>
+    </div>
+    <div class="test-cards">
+      <div class="tcard">
+        <p>Sarvadi Digital Bridge, with its leadership, business acumen, and service ethic, delivers great value and a seamless client experience — every single time.</p>
+        <div class="tauthor">Research Buyer — Leading Pharma Company</div>
+      </div>
+      <div class="tcard">
+        <p>Sarvadi's impressive record of building high-performing teams helped facilitate not only our continuing growth but also that of our clients.</p>
+        <div class="tauthor">Marketing Director — Telco Company</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-img">
+    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=85" alt="Office environment" loading="lazy">
+    <div class="contact-img-overlay">
+      <div class="slabel">Get In Touch</div>
+      <h2>Let's start a conversation</h2>
+      <p>Ready to make smarter business decisions backed by data? Reach out and we'll respond within one business day.</p>
+      <div class="cdetail"><span class="ic">✉</span><span>sarvadidigital@gmail.com</span></div>
+      <div class="cdetail"><span class="ic">📍</span><span>Bengaluru, India</span></div>
+      <div class="cdetail"><span class="ic">📱</span><span>+91 9964852888</span></div>
+    </div>
+  </div>
+  <div class="cform-wrap">
+    <h3>Send us a message</h3>
+    <div class="frow">
+      <div class="fgroup"><label for="fn">First Name</label><input type="text" id="fn" placeholder="Jane"></div>
+      <div class="fgroup"><label for="ln">Last Name</label><input type="text" id="ln" placeholder="Doe"></div>
+    </div>
+    <div class="fgroup"><label for="em">Email Address</label><input type="email" id="em" placeholder="jane@company.com"></div>
+    <div class="fgroup"><label for="co">Company</label><input type="text" id="co" placeholder="Your organisation"></div>
+    <div class="fgroup">
+      <label for="sv">Service of Interest</label>
+      <select id="sv">
+        <option value="">Select a service...</option>
+        <option>Consumer Research</option>
+        <option>Field &amp; Tab Services</option>
+        <option>Market Intelligence</option>
+        <option>Social Research</option>
+        <option>B2B Research</option>
+        <option>Brand Studies</option>
+      </select>
+    </div>
+    <div class="fgroup"><label for="msg">Message</label><textarea id="msg" placeholder="Tell us about your project or research need..."></textarea></div>
+    <button class="fsubmit" onclick="submitForm(this)">Send Message &rarr;</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fcopy">&copy; 2025 <span>Sarvadi Digital Bridge</span>. All rights reserved.</div>
+  <div class="flinks">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#industries">Industries</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+function submitForm(btn) {
+  btn.textContent = 'Message Sent ✓';
+  btn.style.background = '#1a6640';
+  setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 3500);
+}
+</script>
+</body>
+</html>
